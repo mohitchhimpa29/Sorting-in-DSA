@@ -1,0 +1,93 @@
+#include<iostream>
+using namespace std;
+
+void merge(int *arr, int s, int e) {
+
+    int mid = (s+e)/2;
+
+    int len1 = mid - s + 1;
+    int len2 = e - mid;
+
+    int *first = new int[len1];
+    int *second = new int[len2];
+
+    // main array ki valur ko 2 alag alag array me copy krna
+    int mainarridx = s;
+    for(int i=0; i<len1; i++) {
+        first[i] = arr[mainarridx++];
+    }
+
+    mainarridx = mid+1;
+    for(int i=0; i<len2; i++) {
+        second[i] = arr[mainarridx++];
+    }
+
+    // dono sorted array ko merge krna    
+    int index1 = 0;
+    int index2 = 0;
+    mainarridx = s;
+
+    while(index1 < len1 && index2 < len2) {
+        if(first[index1] < second[index2]) {
+            arr[mainarridx++] = first[index1++];
+        }
+        else{
+            arr[mainarridx++] = second[index2++];
+        }
+    }   
+
+    while(index1 < len1) {
+        arr[mainarridx++] = first[index1++];
+    }
+
+    while(index2 < len2 ) {
+        arr[mainarridx++] = second[index2++];
+    }
+
+    
+
+}
+
+void mergeSort(int *arr, int s, int e) {
+
+   
+    if(s >= e) {
+        return;
+    }
+    
+    int mid = (s+e)/2;
+
+     
+    mergeSort(arr, s, mid);  // for sort the left part 
+    
+  
+    mergeSort(arr, mid+1, e); // for sort the right part
+
+    
+    merge(arr, s, e);  // for merge
+
+}
+
+int main() {
+
+    int arr[15] = {5,9,7,33,4,6,1,25,5,10};
+    int n = 10;
+
+    cout << "before sorting the array is :" << endl;
+    for(int i=0;i<n;i++){
+        cout << arr[i] << " ";
+    } 
+    cout << endl;
+
+
+    mergeSort(arr, 0, n-1);
+    
+
+    cout << "after sorting the array is :" << endl;
+    for(int i=0;i<n;i++){
+        cout << arr[i] << " ";
+    } 
+    cout << endl;
+
+    return 0;
+}
